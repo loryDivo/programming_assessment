@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "GQQi5LNbnleFUSzF1XcCZmQ1Aw6qFg8kZNO8f98LcaVQ968XfosJU2FrQclOvFlUcUXoO+9mXkIeGiZHKAHLkA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\ldivito\\source\\repos\\Programming_Assessment\\Programming_Assessment\\Programming_Assessment.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ldivito\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.2\\microsoft.aspnetcore.app.ref.3.1.2.nupkg.sha512"
+  ],
+  "logs": []
+}
