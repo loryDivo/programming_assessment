@@ -1,33 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace Programming_Assessment
 {
-    public class XmlParser<T>
+    public class XmlParser<T> : Parser<T>
     {
-        private String path;
-        private String xmlString;
-        private String baseDirectory = Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.FullName;
 
-        public XmlParser(String path)
+        public XmlParser(String path) : base(path)
         {
-            this.path = Path.Combine(baseDirectory, @path);
         }
-        public void LoadFile()
+        public override void LoadFile()
         {
             // load the file using;
             var XmlDocument = XDocument.Load(path);
             // convert the xml into string
-            xmlString = XmlDocument.ToString();
+            this.markupString = XmlDocument.ToString();
         }
         public T Deserialize(string rootAttribute)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(T), new XmlRootAttribute(rootAttribute));
-            StringReader stringReader = new StringReader(xmlString);
+            StringReader stringReader = new StringReader(markupString);
             T deserializedObject = (T)serializer.Deserialize(stringReader);
+            stringReader.Close();
             return deserializedObject;
         }
     }

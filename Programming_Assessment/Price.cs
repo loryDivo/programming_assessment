@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace Programming_Assessment
 {
@@ -12,7 +13,7 @@ namespace Programming_Assessment
     public class ItemPricesList
     {
         [XmlElement(ElementName = "ItemPrice")]
-        public ItemPrice[] ItemPrice { get; set; }
+        public List<ItemPrice> ItemPriceList { get; set; }
     }
     [XmlRoot(ElementName = "ItemPrice")]
     public class ItemPrice
@@ -20,6 +21,6 @@ namespace Programming_Assessment
         [XmlElement(ElementName = "Item")]
         public string Item { get; set; }
         [XmlElement(ElementName = "Price")]
-        public string Price { get; set; }
+        public float Price { get; set; }
     }
 }

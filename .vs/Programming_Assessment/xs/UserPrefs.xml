@@ -1,0 +1,33 @@
+﻿<Properties StartupConfiguration="{3298925E-3004-474E-ACC0-F0B2F24ECAC6}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Programming_Assessment/JsonParser.cs">
+    <Files>
+      <File FileName="Programming_Assessment/Program.cs" Line="19" Column="10" />
+      <File FileName="Programming_Assessment/XmlParser.cs" />
+      <File FileName="Programming_Assessment/Payment.cs" />
+      <File FileName="Programming_Assessment/data/Payments.json" />
+      <File FileName="Programming_Assessment/Price.cs" />
+      <File FileName="Programming_Assessment/data/Prices.xml" />
+      <File FileName="Programming_Assessment/JsonParser.cs" Line="23" Column="39" />
+      <File FileName="Programming_Assessment/Parser.cs" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Programming_Assessment" expanded="True">
+            <Node name="Programming_Assessment" expanded="True">
+              <Node name="data" expanded="True" />
+              <Node name="JsonParser.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.Programming__Assessment PreferredExecutionTarget="MonoDevelop.Default" />
+</Properties>
