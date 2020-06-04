@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Programming_Assessment
 {
-    public class Payment
+    public class Payments
     {
         [JsonProperty("Customer")]
         public String Customer { get; set; }

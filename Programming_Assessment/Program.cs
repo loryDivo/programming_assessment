@@ -11,9 +11,15 @@ namespace Programming_Assessment
             xmlParser.LoadFile();
             ItemPricesRoot itemPricesRoot = xmlParser.Deserialize("ItemPricesRoot");
 
-            JsonParser<Payment> jsonParser = new JsonParser<Payment>("data/Payments.json");
+            JsonParser<Payments> jsonParser = new JsonParser<Payments>("data/Payments.json");
             jsonParser.LoadFile();
-            List<Payment> payments = jsonParser.Deserialize();
+            List<Payments> payments = jsonParser.Deserialize();
+
+            PurchasesDatParser purchasesDatParser = new PurchasesDatParser("data/Purchases.dat");
+            purchasesDatParser.LoadFile();
+            Purchases purchases = purchasesDatParser.Deserialize();
+
+            
         }
     }
 }

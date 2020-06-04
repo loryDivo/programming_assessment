@@ -6,7 +6,7 @@ namespace Programming_Assessment
     public abstract class Parser <T>
     {
         protected String path;
-        protected String markupString;
+        public String markupString { get; set; }
         protected String baseDirectory = Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.FullName;
 
         public Parser(String path)
