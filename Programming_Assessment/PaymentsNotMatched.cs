@@ -20,8 +20,17 @@ namespace Programming_Assessment
         public SortedSet<PaymentWithDiscrepancy> CalculatePaymentsNotMatched()
         {
             List<Payment> paymentsDue = CalculatePaymentsDue();
-            SortedSet<PaymentWithDiscrepancy> commonPaymentsWithDiscrepancy = new SortedSet<PaymentWithDiscrepancy>();
+            SortedSet<PaymentWithDiscrepancy> paymentsWithDiscrepancy = new SortedSet<PaymentWithDiscrepancy>();
 
+            // PaymentsDue which are not existing inside PaymentsPayed or with attribute discrepancies
+            List<Payment> paymentsDueWithDiscrepancy = paymentsDue.Where(paymentDue => !this.paymentsPayed.Contains(paymentDue)).ToList();
+            // PaymentsPayed which are not existing inside PaymentsDue or with attribute discrepancies
+            List<Payment> paymentsPayedWithDiscrepancy = paymentsPayed.Where(paymentPayed => !paymentsDue.Contains(paymentPayed)).ToList();
+
+            List<Payment> paymentsDueNotInPayed = paymentsDueWithDiscrepancy.Where(paymentDueWithDiscrepancy => !paymentsPayedWithDiscrepancy.Any(paymentPayedWithDiscrepancy => paymentPayedWithDiscrepancy.Customer == paymentDueWithDiscrepancy.Customer)).ToList();
+            List<Payment> paymentsPayedNotInDue = paymentsPayedWithDiscrepancy.Where(paymentPayedWithDiscrepancy => !paymentsDueWithDiscrepancy.Any(paymentDueWithDiscrepancy => paymentPayedWithDiscrepancy.Customer == paymentDueWithDiscrepancy.Customer)).ToList();
+
+            // Detect common payments with amount differences
             foreach (Payment paymentDue in paymentsDue)
             {
                 foreach (Payment paymentPayed in paymentsPayed)
@@ -33,14 +42,34 @@ namespace Programming_Assessment
                     {
                         PaymentWithDiscrepancy paymentNotMatched = new PaymentWithDiscrepancy(paymentPayed);
                         paymentNotMatched.AmountDue = paymentDue.Amount;
+                        paymentNotMatched.Amount = paymentPayed.Amount;
                         //Consider only two decimal digits
                         paymentNotMatched.differenceBetweenDueAndPayed = (float)Math.Round(Math.Abs(paymentDue.Amount - paymentPayed.Amount), 2);
-                        commonPaymentsWithDiscrepancy.Add(paymentNotMatched);
+                        paymentsWithDiscrepancy.Add(paymentNotMatched);
                     }
                 }
             }
-            return commonPaymentsWithDiscrepancy;
+
+            foreach (Payment paymentDueNotInPayed in paymentsDueNotInPayed)
+            {
+                PaymentWithDiscrepancy paymentNotMatched = new PaymentWithDiscrepancy(paymentDueNotInPayed);
+                paymentNotMatched.AmountDue = paymentDueNotInPayed.Amount;
+                paymentNotMatched.Amount = 0;
+                paymentNotMatched.differenceBetweenDueAndPayed = (float)Math.Round(Math.Abs(paymentNotMatched.Amount - paymentNotMatched.AmountDue), 2);
+                paymentsWithDiscrepancy.Add(paymentNotMatched);
+            }
+            foreach (Payment paymentPayedNotInDue in paymentsPayedNotInDue)
+            {
+                PaymentWithDiscrepancy paymentNotMatched = new PaymentWithDiscrepancy(paymentPayedNotInDue);
+                paymentNotMatched.Amount = paymentPayedNotInDue.Amount;
+                paymentNotMatched.AmountDue = 0;
+                paymentNotMatched.differenceBetweenDueAndPayed = (float)Math.Round(Math.Abs(paymentNotMatched.Amount - paymentNotMatched.AmountDue), 2);
+                paymentsWithDiscrepancy.Add(paymentNotMatched);
+            }
+
+            return paymentsWithDiscrepancy;
         }
+
         private List<Payment> CalculatePaymentsDue()
         {
             List<Payment> paymentsDue = new List<Payment>();

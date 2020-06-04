@@ -11,5 +11,13 @@ namespace Programming_Assessment
         public int Month { get; set; }
         public float Amount { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            return obj is Payment payment &&
+                   Customer == payment.Customer &&
+                   Year == payment.Year &&
+                   Month == payment.Month &&
+                   Amount == payment.Amount;
+        }
     }
 }

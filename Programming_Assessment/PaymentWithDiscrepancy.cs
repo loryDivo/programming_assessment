@@ -14,7 +14,9 @@ namespace Programming_Assessment
             this.Customer = payment.Customer;
             this.Month = payment.Month;
             this.Year = payment.Year;
-            this.Amount = payment.Amount;
+        }
+        public PaymentWithDiscrepancy()
+        {
         }
 
         public int CompareTo(PaymentWithDiscrepancy other)

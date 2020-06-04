@@ -13,9 +13,10 @@ namespace Programming_Assessment
 
         public override void LoadFile(String fileName)
         {
-            StreamReader sr = new StreamReader(Path.Combine(this.path, fileName));
-            this.markupString = sr.ReadToEnd();
-            sr.Close();
+            using (StreamReader sr = new StreamReader(Path.Combine(this.path, fileName)))
+            {
+                this.markupString = sr.ReadToEnd();
+            }
         }
 
         public List<T> Deserialize()

@@ -1,14 +1,19 @@
 ﻿<Properties StartupConfiguration="{3298925E-3004-474E-ACC0-F0B2F24ECAC6}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Programming_Assessment/JsonParser.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Programming_Assessment/PurchasesDatParser.cs">
     <Files>
-      <File FileName="Programming_Assessment/Program.cs" Line="19" Column="10" />
-      <File FileName="Programming_Assessment/XmlParser.cs" />
-      <File FileName="Programming_Assessment/Payment.cs" />
-      <File FileName="Programming_Assessment/data/Payments.json" />
-      <File FileName="Programming_Assessment/Price.cs" />
-      <File FileName="Programming_Assessment/data/Prices.xml" />
-      <File FileName="Programming_Assessment/JsonParser.cs" Line="23" Column="39" />
+      <File FileName="Programming_Assessment/Program.cs" Line="13" Column="43" />
+      <File FileName="Programming_Assessment/XmlParser.cs" Line="26" Column="34" />
+      <File FileName="Programming_Assessment/Payment.cs" Line="22" Column="6" />
+      <File FileName="Programming_Assessment/data/Payments.json" Line="4989" Column="18" />
+      <File FileName="Programming_Assessment/data/Prices.xml" Line="1" Column="1" />
+      <File FileName="Programming_Assessment/JsonParser.cs" />
       <File FileName="Programming_Assessment/Parser.cs" />
+      <File FileName="Programming_Assessment/PaymentWithDiscrepancy.cs" Line="16" Column="38" />
+      <File FileName="Programming_Assessment/PaymentsNotMatched.cs" Line="33" Column="62" />
+      <File FileName="Programming_Assessment/Prices.cs" Line="1" Column="1" />
+      <File FileName="Programming_Assessment/data/Purchases.dat" Line="13417" Column="1" />
+      <File FileName="Programming_Assessment/Purchases.cs" Line="1" Column="1" />
+      <File FileName="Programming_Assessment/PurchasesDatParser.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -16,7 +21,7 @@
           <Node name="Programming_Assessment" expanded="True">
             <Node name="Programming_Assessment" expanded="True">
               <Node name="data" expanded="True" />
-              <Node name="JsonParser.cs" selected="True" />
+              <Node name="PurchasesDatParser.cs" selected="True" />
             </Node>
           </Node>
         </State>
