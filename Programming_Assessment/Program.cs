@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace Programming_Assessment
@@ -7,18 +8,28 @@ namespace Programming_Assessment
     {
         public static void Main(string[] args)
         {
-            XmlParser<ItemPricesRoot> xmlParser = new XmlParser<ItemPricesRoot>("data/Prices.xml");
-            xmlParser.LoadFile();
+            XmlParser<ItemPricesRoot> xmlParser = new XmlParser<ItemPricesRoot>("data");
+            xmlParser.LoadFile("Prices.xml");
             ItemPricesRoot itemPricesRoot = xmlParser.Deserialize("ItemPricesRoot");
 
-            JsonParser<Payments> jsonParser = new JsonParser<Payments>("data/Payments.json");
-            jsonParser.LoadFile();
-            List<Payments> payments = jsonParser.Deserialize();
+            JsonParser<Payment> jsonParserPayment = new JsonParser<Payment>("data");
+            jsonParserPayment.LoadFile("Payments.json");
+            List <Payment> paymentsPayed = jsonParserPayment.Deserialize();
 
-            PurchasesDatParser purchasesDatParser = new PurchasesDatParser("data/Purchases.dat");
-            purchasesDatParser.LoadFile();
+            PurchasesDatParser purchasesDatParser = new PurchasesDatParser("data");
+            purchasesDatParser.LoadFile("Purchases.dat");
             Purchases purchases = purchasesDatParser.Deserialize();
 
+            PaymentsNotMatched paymentsNotMatched = new PaymentsNotMatched(purchases, itemPricesRoot, paymentsPayed);
+
+            JsonParser<PaymentWithDiscrepancy> jsonParserPaymentWithDiscrepancy = new JsonParser<PaymentWithDiscrepancy>("data");
+
+            SortedSet<PaymentWithDiscrepancy> commonPaymentsWithDiscrepancy = paymentsNotMatched.CalculatePaymentsNotMatched();
+
+            foreach (PaymentWithDiscrepancy commonPaymentWithDiscrepancy in commonPaymentsWithDiscrepancy)
+            {
+                jsonParserPaymentWithDiscrepancy.Serialize(commonPaymentsWithDiscrepancy, "PaymentsNotMatched.json");
+            }
             
         }
     }

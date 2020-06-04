@@ -7,13 +7,13 @@ namespace Programming_Assessment
     public class ItemPricesRoot
     {
         [XmlElement(ElementName = "ItemPricesList")]
-        public ItemPricesList ItemPricesList { get; set; }
+        public ItemPrices ItemPrices { get; set; }
     }
     [XmlRoot(ElementName = "ItemPricesList")]
-    public class ItemPricesList
+    public class ItemPrices
     {
         [XmlElement(ElementName = "ItemPrice")]
-        public List<ItemPrice> ItemPriceList { get; set; }
+        public HashSet<ItemPrice> ItemPriceSet { get; set; }
     }
     [XmlRoot(ElementName = "ItemPrice")]
     public class ItemPrice

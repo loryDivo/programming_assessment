@@ -11,10 +11,10 @@ namespace Programming_Assessment
         public XmlParser(String path) : base(path)
         {
         }
-        public override void LoadFile()
+        public override void LoadFile(String fileName)
         {
             // load the file using;
-            var XmlDocument = XDocument.Load(path);
+            var XmlDocument = XDocument.Load(Path.Combine(this.path, fileName));
             // convert the xml into string
             this.markupString = XmlDocument.ToString();
         }

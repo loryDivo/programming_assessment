@@ -13,6 +13,6 @@ namespace Programming_Assessment
         {
             this.path = Path.Combine(baseDirectory, path);
         }
-        public abstract void LoadFile();
+        public abstract void LoadFile(String fileName);
     }
 }

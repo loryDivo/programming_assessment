@@ -16,9 +16,9 @@ namespace Programming_Assessment
         {
 
         }
-        public override void LoadFile()
+        public override void LoadFile(String fileName)
         {
-            StreamReader sr = new StreamReader(this.path, System.Text.Encoding.Default);
+            StreamReader sr = new StreamReader(Path.Combine(this.path, fileName), System.Text.Encoding.Default);
             this.markupString = sr.ReadToEnd().Trim();
             sr.Close();
         }
