@@ -1,57 +1,55 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Programming_Assessment
 {
     class PurchasesDatParser : Parser<Purchases>
     {
-        private static String customerId = "CUST";
-        private static String dateId = "DATE";
-        private static String itemId = "ITEM";
-        public PurchasesDatParser(String path) : base(path)
+        private const String CustomerId = "CUST";
+        private const String DateId = "DATE";
+        private const String ItemId = "ITEM";
+        public PurchasesDatParser(String iPath) : base(iPath)
         {
 
         }
-        public override void LoadFile(String fileName)
+        public override void LoadFile(String iFileName)
         {
-            StreamReader sr = new StreamReader(Path.Combine(this.path, fileName), System.Text.Encoding.Default);
-            this.markupString = sr.ReadToEnd().Trim();
-            sr.Close();
+            StreamReader aStreamReader = new StreamReader(System.IO.Path.Combine(this.Path, iFileName), System.Text.Encoding.Default);
+            this.MarkupString = aStreamReader.ReadToEnd().Trim();
+            aStreamReader.Close();
         }
 
         public Purchases Deserialize()
         {
-            Purchases purchases = new Purchases();
-            String[] splittedByPurchases = this.markupString.Split(customerId, StringSplitOptions.RemoveEmptyEntries);
-            foreach (String splittedByPurchase in splittedByPurchases)
+            Purchases aPurchases = new Purchases();
+            String[] aSplittedByPurchases = this.MarkupString.Split(CustomerId, StringSplitOptions.RemoveEmptyEntries);
+            foreach (String aSplittedByPurchase in aSplittedByPurchases)
             {
-                String[] splittedByPurchaseFields = Regex.Split(splittedByPurchase, "\\s+", RegexOptions.None).Where(s => s!= String.Empty).ToArray<String>();
-                Purchase purchase = new Purchase();
-                foreach (String splittedByPurchaseField in splittedByPurchaseFields)
+                String[] aSplittedByPurchaseFields = Regex.Split(aSplittedByPurchase, "\\s+", RegexOptions.None).Where(s => s!= String.Empty).ToArray<String>();
+                Purchase aPurchase = new Purchase();
+                foreach (String aSplittedByPurchaseField in aSplittedByPurchaseFields)
                 {
-                    if (splittedByPurchaseField.Contains(dateId))
+                    if (aSplittedByPurchaseField.Contains(DateId))
                     {
-                        String dateString = splittedByPurchaseField.Replace(dateId, String.Empty);
-                        purchase.Date = DateTime.ParseExact(dateString, "ddMMyyyyHHmm", null);
+                        String aDateString = aSplittedByPurchaseField.Replace(DateId, String.Empty);
+                        aPurchase.Date = DateTime.ParseExact(aDateString, "ddMMyyyyHHmm", null);
                     }
-                    else if (splittedByPurchaseField.Contains(itemId))
+                    else if (aSplittedByPurchaseField.Contains(ItemId))
                     {
-                        Item item = new Item();
-                        item.ItemNumber = splittedByPurchaseField.Replace(itemId, String.Empty);
-                        purchase.Items.Add(item);
+                        Item aItem = new Item();
+                        aItem.ItemNumber = aSplittedByPurchaseField.Replace(ItemId, String.Empty);
+                        aPurchase.Items.Add(aItem);
                     }
                     else
                     {
-                        purchase.Customer = splittedByPurchaseField;
+                        aPurchase.Customer = aSplittedByPurchaseField;
                     }
                 }
-                purchases.purchases.Add(purchase);
+                aPurchases.PurchasesList.Add(aPurchase);
             }
-            return purchases;
+            return aPurchases;
         }
     }
 }

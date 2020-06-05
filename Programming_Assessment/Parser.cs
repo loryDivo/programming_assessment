@@ -5,14 +5,14 @@ namespace Programming_Assessment
 {
     public abstract class Parser <T>
     {
-        protected String path;
-        public String markupString { get; set; }
-        protected String baseDirectory = Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+        protected String Path;
+        protected String MarkupString { get; set; }
+        protected readonly String BaseDirectory = Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.FullName;
 
-        public Parser(String path)
+        public Parser(String iPath)
         {
-            this.path = Path.Combine(baseDirectory, path);
+            this.Path = System.IO.Path.Combine(BaseDirectory, iPath);
         }
-        public abstract void LoadFile(String fileName);
+        public abstract void LoadFile(String iFileName);
     }
 }

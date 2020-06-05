@@ -1,31 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
 
 namespace Programming_Assessment
 {
     public class PaymentWithDiscrepancy : Payment, IComparable<PaymentWithDiscrepancy>
     {
-        public float AmountDue;
-        public float differenceBetweenDueAndPayed;
-        public PaymentWithDiscrepancy(Payment payment)
+        public float AmountDue { get; set; }
+        public float DifferenceBetweenDueAndPayed { get; set; }
+        public PaymentWithDiscrepancy(Payment iPayment)
         {
-            this.Customer = payment.Customer;
-            this.Month = payment.Month;
-            this.Year = payment.Year;
+            this.Customer = iPayment.Customer;
+            this.Month = iPayment.Month;
+            this.Year = iPayment.Year;
         }
         public PaymentWithDiscrepancy()
         {
         }
 
-        public int CompareTo(PaymentWithDiscrepancy other)
+        public int CompareTo(PaymentWithDiscrepancy iOther)
         {
-            if(this.differenceBetweenDueAndPayed.CompareTo(other.differenceBetweenDueAndPayed) > 0)
+            if(this.DifferenceBetweenDueAndPayed.CompareTo(iOther.DifferenceBetweenDueAndPayed) > 0)
             {
                 return -1;
             }
-            else if (this.differenceBetweenDueAndPayed.CompareTo(other.differenceBetweenDueAndPayed) < 0)
+            else if (this.DifferenceBetweenDueAndPayed.CompareTo(iOther.DifferenceBetweenDueAndPayed) < 0)
             {
                 return 1;
             }

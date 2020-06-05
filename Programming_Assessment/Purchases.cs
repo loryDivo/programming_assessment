@@ -6,10 +6,10 @@ namespace Programming_Assessment
 {
     public class Purchases
     {
-        public List<Purchase> purchases { get; set; }
+        public List<Purchase> PurchasesList { get; set; }
         public Purchases()
         {
-            purchases = new List<Purchase>();
+            PurchasesList = new List<Purchase>();
         }
     }
     public class Purchase

@@ -8,23 +8,23 @@ namespace Programming_Assessment
     public class XmlParser<T> : Parser<T>
     {
 
-        public XmlParser(String path) : base(path)
+        public XmlParser(String iPath) : base(iPath)
         {
         }
-        public override void LoadFile(String fileName)
+        public override void LoadFile(String iFileName)
         {
             // load the file using;
-            var XmlDocument = XDocument.Load(Path.Combine(this.path, fileName));
+            var aXmlDocument = XDocument.Load(System.IO.Path.Combine(this.Path, iFileName));
             // convert the xml into string
-            this.markupString = XmlDocument.ToString();
+            this.MarkupString = aXmlDocument.ToString();
         }
-        public T Deserialize(string rootAttribute)
+        public T Deserialize(string iRootAttribute)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(T), new XmlRootAttribute(rootAttribute));
-            StringReader stringReader = new StringReader(markupString);
-            T deserializedObject = (T)serializer.Deserialize(stringReader);
-            stringReader.Close();
-            return deserializedObject;
+            XmlSerializer aSerializer = new XmlSerializer(typeof(T), new XmlRootAttribute(iRootAttribute));
+            StringReader aStringReader = new StringReader(this.MarkupString);
+            T ADeserializedObject = (T)aSerializer.Deserialize(aStringReader);
+            aStringReader.Close();
+            return ADeserializedObject;
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Programming_Assessment
 {
@@ -8,28 +6,26 @@ namespace Programming_Assessment
     {
         public static void Main(string[] args)
         {
-            XmlParser<ItemPricesRoot> xmlParser = new XmlParser<ItemPricesRoot>("data");
-            xmlParser.LoadFile("Prices.xml");
-            ItemPricesRoot itemPricesRoot = xmlParser.Deserialize("ItemPricesRoot");
+            XmlParser<ItemPricesRoot> aXmlParser = new XmlParser<ItemPricesRoot>("data");
+            aXmlParser.LoadFile("Prices.xml");
+            ItemPricesRoot itemPricesRoot = aXmlParser.Deserialize("ItemPricesRoot");
 
-            JsonParser<Payment> jsonParserPayment = new JsonParser<Payment>("data");
-            jsonParserPayment.LoadFile("Payments.json");
-            List <Payment> paymentsPayed = jsonParserPayment.Deserialize();
+            JsonParser<Payment> aJsonParserPayment = new JsonParser<Payment>("data");
+            aJsonParserPayment.LoadFile("Payments.json");
+            List <Payment> aPaymentsPayed = aJsonParserPayment.Deserialize();
 
-            PurchasesDatParser purchasesDatParser = new PurchasesDatParser("data");
-            purchasesDatParser.LoadFile("Purchases.dat");
-            Purchases purchases = purchasesDatParser.Deserialize();
+            PurchasesDatParser aPurchasesDatParser = new PurchasesDatParser("data");
+            aPurchasesDatParser.LoadFile("Purchases.dat");
+            Purchases aPurchases = aPurchasesDatParser.Deserialize();
 
-            PaymentsNotMatched paymentsNotMatched = new PaymentsNotMatched(purchases, itemPricesRoot, paymentsPayed);
+            PaymentsNotMatched aPaymentsNotMatched = new PaymentsNotMatched(aPurchases, itemPricesRoot, aPaymentsPayed);
 
-            JsonParser<PaymentWithDiscrepancy> jsonParserPaymentWithDiscrepancy = new JsonParser<PaymentWithDiscrepancy>("data");
+            JsonParser<PaymentWithDiscrepancy> aJsonParserPaymentWithDiscrepancy = new JsonParser<PaymentWithDiscrepancy>("data");
 
-            SortedSet<PaymentWithDiscrepancy> commonPaymentsWithDiscrepancy = paymentsNotMatched.CalculatePaymentsNotMatched();
+            SortedSet<PaymentWithDiscrepancy> aCommonPaymentsWithDiscrepancy = aPaymentsNotMatched.CalculatePaymentsNotMatched();
 
-            foreach (PaymentWithDiscrepancy commonPaymentWithDiscrepancy in commonPaymentsWithDiscrepancy)
-            {
-                jsonParserPaymentWithDiscrepancy.Serialize(commonPaymentsWithDiscrepancy, "PaymentsNotMatched.json");
-            }
+
+            aJsonParserPaymentWithDiscrepancy.Serialize(aCommonPaymentsWithDiscrepancy, "PaymentsNotMatched.json");
             
         }
     }

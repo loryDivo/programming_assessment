@@ -1,141 +1,145 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Tracing;
 using System.Linq;
-using System.Text;
 
 namespace Programming_Assessment
 {
     public class PaymentsNotMatched
     {
-        private Purchases purchases;
-        private ItemPricesRoot itemPricesRoot;
-        private List<Payment> paymentsPayed;
-        public PaymentsNotMatched(Purchases purchases, ItemPricesRoot itemPricesRoot, List<Payment> paymentsPayed)
+        private Purchases Purchases;
+        private ItemPricesRoot ItemPricesRoot;
+        private List<Payment> PaymentsPayed;
+        public PaymentsNotMatched(Purchases iPurchases, ItemPricesRoot iItemPricesRoot, List<Payment> iPaymentsPayed)
         {
-            this.purchases = purchases;
-            this.itemPricesRoot = itemPricesRoot;
-            this.paymentsPayed = paymentsPayed;
+            this.Purchases = iPurchases;
+            this.ItemPricesRoot = iItemPricesRoot;
+            this.PaymentsPayed = iPaymentsPayed;
         }
         public SortedSet<PaymentWithDiscrepancy> CalculatePaymentsNotMatched()
         {
-            List<Payment> paymentsDue = CalculatePaymentsDue();
-            SortedSet<PaymentWithDiscrepancy> paymentsWithDiscrepancy = new SortedSet<PaymentWithDiscrepancy>();
+            List<Payment> aPaymentsDue = CalculatePaymentsDue();
+            SortedSet<PaymentWithDiscrepancy> aPaymentsWithDiscrepancy = new SortedSet<PaymentWithDiscrepancy>();
 
             // PaymentsDue which are not existing inside PaymentsPayed or with attribute discrepancies
-            List<Payment> paymentsDueWithDiscrepancy = paymentsDue.Where(paymentDue => !this.paymentsPayed.Contains(paymentDue)).ToList();
+            List<Payment> aPaymentsDueWithDiscrepancy = aPaymentsDue.Where(paymentDue => !this.PaymentsPayed.Contains(paymentDue)).ToList();
             // PaymentsPayed which are not existing inside PaymentsDue or with attribute discrepancies
-            List<Payment> paymentsPayedWithDiscrepancy = paymentsPayed.Where(paymentPayed => !paymentsDue.Contains(paymentPayed)).ToList();
+            List<Payment> aPaymentsPayedWithDiscrepancy = PaymentsPayed.Where(paymentPayed => !aPaymentsDue.Contains(paymentPayed)).ToList();
 
-            List<Payment> paymentsDueNotInPayed = paymentsDueWithDiscrepancy.Where(paymentDueWithDiscrepancy => !paymentsPayedWithDiscrepancy.Any(paymentPayedWithDiscrepancy => paymentPayedWithDiscrepancy.Customer == paymentDueWithDiscrepancy.Customer)).ToList();
-            List<Payment> paymentsPayedNotInDue = paymentsPayedWithDiscrepancy.Where(paymentPayedWithDiscrepancy => !paymentsDueWithDiscrepancy.Any(paymentDueWithDiscrepancy => paymentPayedWithDiscrepancy.Customer == paymentDueWithDiscrepancy.Customer)).ToList();
+            List<Payment> aPaymentsDueNotInPayed = aPaymentsDueWithDiscrepancy
+                .Where(paymentDueWithDiscrepancy => !aPaymentsPayedWithDiscrepancy
+                .Any(paymentPayedWithDiscrepancy => paymentPayedWithDiscrepancy.Customer == paymentDueWithDiscrepancy.Customer &&
+                                                    paymentPayedWithDiscrepancy.Month == paymentDueWithDiscrepancy.Month &&
+                                                    paymentPayedWithDiscrepancy.Year == paymentDueWithDiscrepancy.Year))
+                .ToList();
+            List<Payment> aPaymentsPayedNotInDue = aPaymentsPayedWithDiscrepancy
+                .Where(paymentPayedWithDiscrepancy => !aPaymentsDueWithDiscrepancy
+                .Any(paymentDueWithDiscrepancy => paymentPayedWithDiscrepancy.Customer == paymentDueWithDiscrepancy.Customer &&
+                                                  paymentPayedWithDiscrepancy.Month == paymentDueWithDiscrepancy.Month &&
+                                                  paymentPayedWithDiscrepancy.Year == paymentDueWithDiscrepancy.Year))
+                .ToList();
 
             // Detect common payments with amount differences
-            foreach (Payment paymentDue in paymentsDue)
+            foreach (Payment aPaymentDue in aPaymentsDue)
             {
-                foreach (Payment paymentPayed in paymentsPayed)
+                foreach (Payment aPaymentPayed in PaymentsPayed)
                 {
-                    if (paymentDue.Customer == paymentPayed.Customer &&
-                        paymentDue.Month == paymentPayed.Month &&
-                        paymentDue.Year == paymentPayed.Year &&
-                        Math.Abs(paymentDue.Amount - paymentPayed.Amount) != 0)
+                    if (aPaymentDue.Customer == aPaymentPayed.Customer &&
+                        aPaymentDue.Month == aPaymentPayed.Month &&
+                        aPaymentDue.Year == aPaymentPayed.Year &&
+                        Math.Abs(aPaymentDue.GetAmount() - aPaymentPayed.GetAmount()) != 0)
                     {
-                        PaymentWithDiscrepancy paymentNotMatched = new PaymentWithDiscrepancy(paymentPayed);
-                        paymentNotMatched.AmountDue = paymentDue.Amount;
-                        paymentNotMatched.Amount = paymentPayed.Amount;
+                        PaymentWithDiscrepancy aPaymentNotMatched = new PaymentWithDiscrepancy(aPaymentPayed);
+                        aPaymentNotMatched.AmountDue = aPaymentDue.GetAmount();
+                        aPaymentNotMatched.SetAmount(aPaymentPayed.GetAmount());
                         //Consider only two decimal digits
-                        paymentNotMatched.differenceBetweenDueAndPayed = (float)Math.Round(Math.Abs(paymentDue.Amount - paymentPayed.Amount), 2);
-                        paymentsWithDiscrepancy.Add(paymentNotMatched);
+                        aPaymentNotMatched.DifferenceBetweenDueAndPayed = (float)Math.Round(Math.Abs(aPaymentDue.GetAmount() - aPaymentPayed.GetAmount()), 2);
+                        aPaymentsWithDiscrepancy.Add(aPaymentNotMatched);
                     }
                 }
             }
-
-            foreach (Payment paymentDueNotInPayed in paymentsDueNotInPayed)
+            // Detect Payment that are not inside the Payments Payed or Payment Due and calculate the correct AmountDue and AmountPayed
+            foreach (Payment aPaymentDueNotInPayed in aPaymentsDueNotInPayed)
             {
-                PaymentWithDiscrepancy paymentNotMatched = new PaymentWithDiscrepancy(paymentDueNotInPayed);
-                paymentNotMatched.AmountDue = paymentDueNotInPayed.Amount;
-                paymentNotMatched.Amount = 0;
-                paymentNotMatched.differenceBetweenDueAndPayed = (float)Math.Round(Math.Abs(paymentNotMatched.Amount - paymentNotMatched.AmountDue), 2);
-                paymentsWithDiscrepancy.Add(paymentNotMatched);
+                PaymentWithDiscrepancy aPaymentNotMatched = new PaymentWithDiscrepancy(aPaymentDueNotInPayed);
+                aPaymentNotMatched.AmountDue = aPaymentDueNotInPayed.GetAmount();
+                aPaymentNotMatched.SetAmount(0);
+                aPaymentNotMatched.DifferenceBetweenDueAndPayed = (float)Math.Round(Math.Abs(aPaymentNotMatched.GetAmount() - aPaymentNotMatched.AmountDue), 2);
+                aPaymentsWithDiscrepancy.Add(aPaymentNotMatched);
             }
-            foreach (Payment paymentPayedNotInDue in paymentsPayedNotInDue)
+            foreach (Payment aPaymentPayedNotInDue in aPaymentsPayedNotInDue)
             {
-                PaymentWithDiscrepancy paymentNotMatched = new PaymentWithDiscrepancy(paymentPayedNotInDue);
-                paymentNotMatched.Amount = paymentPayedNotInDue.Amount;
-                paymentNotMatched.AmountDue = 0;
-                paymentNotMatched.differenceBetweenDueAndPayed = (float)Math.Round(Math.Abs(paymentNotMatched.Amount - paymentNotMatched.AmountDue), 2);
-                paymentsWithDiscrepancy.Add(paymentNotMatched);
+                PaymentWithDiscrepancy aPaymentNotMatched = new PaymentWithDiscrepancy(aPaymentPayedNotInDue);
+                aPaymentNotMatched.SetAmount(aPaymentPayedNotInDue.GetAmount());
+                aPaymentNotMatched.AmountDue = 0;
+                aPaymentNotMatched.DifferenceBetweenDueAndPayed = (float)Math.Round(Math.Abs(aPaymentNotMatched.GetAmount() - aPaymentNotMatched.AmountDue), 2);
+                aPaymentsWithDiscrepancy.Add(aPaymentNotMatched);
             }
 
-            return paymentsWithDiscrepancy;
+            return aPaymentsWithDiscrepancy;
         }
 
         private List<Payment> CalculatePaymentsDue()
         {
-            List<Payment> paymentsDue = new List<Payment>();
-            HashSet<String> customerIds = new HashSet<String>(purchases.purchases.Select(purchase => purchase.Customer));
-            foreach (String customerId in customerIds)
+            List<Payment> aPaymentsDue = new List<Payment>();
+            HashSet<String> aCustomerIds = new HashSet<String>(Purchases.PurchasesList.Select(purchase => purchase.Customer));
+            foreach (String aCustomerId in aCustomerIds)
             {
-                Dictionary<String, Purchases> sameMonthsCustomerIdPurchases = DetectSameMonthCustomerIdPurchases(customerId);
+                Dictionary<String, Purchases> aSameMonthsCustomerIdPurchases = DetectSameMonthCustomerIdPurchases(aCustomerId);
                 // For each month it is needed to calculate the total amount due
-                foreach (KeyValuePair<String, Purchases> sameMonthCustomerIdPurchases in sameMonthsCustomerIdPurchases)
+                foreach (KeyValuePair<String, Purchases> aSameMonthCustomerIdPurchases in aSameMonthsCustomerIdPurchases)
                 {
-                    float customerIdMonthAmount = CalculateCustomerIdMonthAmount(sameMonthCustomerIdPurchases.Value);
-                    Payment paymentDue = new Payment();
-                    DateTime customerIdDate = DateTime.ParseExact(sameMonthCustomerIdPurchases.Key, "yyyyMM", null);
-                    paymentDue.Customer = customerId;
-                    paymentDue.Amount = customerIdMonthAmount;
-                    paymentDue.Month = customerIdDate.Month;
-                    paymentDue.Year = customerIdDate.Year;
-                    paymentsDue.Add(paymentDue);
+                    float aCustomerIdMonthAmount = CalculateCustomerIdMonthAmount(aSameMonthCustomerIdPurchases.Value);
+                    DateTime aCustomerIdDate = DateTime.ParseExact(aSameMonthCustomerIdPurchases.Key, "yyyyMM", null);
+                    Payment aPaymentDue = new Payment(aCustomerId, aCustomerIdDate, aCustomerIdMonthAmount);
+                    aPaymentsDue.Add(aPaymentDue);
                 }
             }
-            return paymentsDue;
+            return aPaymentsDue;
         }
 
-        private float CalculateCustomerIdMonthAmount(Purchases purchases)
+        private float CalculateCustomerIdMonthAmount(Purchases iPurchases)
         {
-            float monthAmount = 0;
-            foreach (Purchase purchase in purchases.purchases)
+            float aMonthAmount = 0;
+            foreach (Purchase aPurchase in iPurchases.PurchasesList)
             {
-                foreach (Item item in purchase.Items)
+                foreach (Item aItem in aPurchase.Items)
                 {
-                    ItemPrice itemPrice = this.itemPricesRoot.ItemPrices.ItemPriceSet.First(itemPrice => itemPrice.Item == item.ItemNumber);
-                    monthAmount += itemPrice.Price;
+                    ItemPrice aItemPrice = this.ItemPricesRoot.ItemPrices.ItemPriceSet.First(itemPrice => itemPrice.Item == aItem.ItemNumber);
+                    aMonthAmount += aItemPrice.Price;
                 }
             }
             // Consider only two decimal digits
-            return (float)Math.Round(monthAmount, 2);
+            return (float)Math.Round(aMonthAmount, 2);
         }
 
-        private Dictionary<String, Purchases> DetectSameMonthCustomerIdPurchases(String customerId)
+        private Dictionary<String, Purchases> DetectSameMonthCustomerIdPurchases(String iCustomerId)
         {
-            Purchases sameCustomerIdPurchases = new Purchases();
-            sameCustomerIdPurchases.purchases = purchases.purchases.Select(purchase => new Purchase()
+            Purchases aSameCustomerIdPurchases = new Purchases();
+            aSameCustomerIdPurchases.PurchasesList = Purchases.PurchasesList.Select(aPurchase => new Purchase()
             {
-                Date = purchase.Date,
-                Items = purchase.Items,
-                Customer = purchase.Customer,
+                Date = aPurchase.Date,
+                Items = aPurchase.Items,
+                Customer = aPurchase.Customer,
             }
-            ).Where(purchase => purchase.Customer == customerId).ToList();
+            ).Where(aPurchase => aPurchase.Customer == iCustomerId).ToList();
             
-            Dictionary<String, Purchases> sameMonthsCustomerIdPurchases = new Dictionary<String, Purchases>();
+            Dictionary<String, Purchases> aSameMonthsCustomerIdPurchases = new Dictionary<String, Purchases>();
 
-            HashSet<String> customerIdDates = sameCustomerIdPurchases.purchases.Select(purchase => purchase.Date.ToString("yyyyMM")).ToHashSet();
+            HashSet<String> aCustomerIdDates = aSameCustomerIdPurchases.PurchasesList.Select(aPurchase => aPurchase.Date.ToString("yyyyMM")).ToHashSet();
 
-            foreach (String customerIdDate in customerIdDates)
+            foreach (String aCustomerIdDate in aCustomerIdDates)
             {
-                Purchases sameMonthCustomerIdPurchase = new Purchases();
-                sameMonthCustomerIdPurchase.purchases = sameCustomerIdPurchases.purchases.Select(purchase => new Purchase()
+                Purchases aSameMonthCustomerIdPurchase = new Purchases();
+                aSameMonthCustomerIdPurchase.PurchasesList = aSameCustomerIdPurchases.PurchasesList.Select(aPurchase => new Purchase()
                 {
-                    Date = purchase.Date,
-                    Items = purchase.Items,
-                    Customer = purchase.Customer,
+                    Date = aPurchase.Date,
+                    Items = aPurchase.Items,
+                    Customer = aPurchase.Customer,
                 }
-                ).Where(purchase => purchase.Date.ToString("yyyyMM") == customerIdDate).ToList();
-                sameMonthsCustomerIdPurchases.Add(customerIdDate, sameMonthCustomerIdPurchase);
+                ).Where(aPurchase => aPurchase.Date.ToString("yyyyMM") == aCustomerIdDate).ToList();
+                aSameMonthsCustomerIdPurchases.Add(aCustomerIdDate, aSameMonthCustomerIdPurchase);
             }
-            return sameMonthsCustomerIdPurchases;
+            return aSameMonthsCustomerIdPurchases;
         }
     }
 }

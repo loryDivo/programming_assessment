@@ -7,30 +7,30 @@ namespace Programming_Assessment
 {
     public class JsonParser <T> : Parser<T>
     {
-        public JsonParser(String path) : base(path)
+        public JsonParser(String iPath) : base(iPath)
         {
         }
 
-        public override void LoadFile(String fileName)
+        public override void LoadFile(String iFileName)
         {
-            using (StreamReader sr = new StreamReader(Path.Combine(this.path, fileName)))
+            using (StreamReader sr = new StreamReader(System.IO.Path.Combine(this.Path, iFileName)))
             {
-                this.markupString = sr.ReadToEnd();
+                this.MarkupString = sr.ReadToEnd();
             }
         }
 
         public List<T> Deserialize()
         {
-            List<T> deserializedObject = JsonConvert.DeserializeObject<List<T>>(this.markupString);
-            return deserializedObject;
+            List<T> aDeserializedObject = JsonConvert.DeserializeObject<List<T>>(this.MarkupString);
+            return aDeserializedObject;
         }
 
-        public void Serialize(SortedSet<T> objectToSerialize, String fileName)
+        public void Serialize(SortedSet<T> iObjectToSerialize, String iFileName)
         {
-            String serializedJson = JsonConvert.SerializeObject(objectToSerialize, Formatting.Indented);
-            using (StreamWriter writer = new StreamWriter(Path.Combine(this.path, fileName)))
+            String aSerializedJson = JsonConvert.SerializeObject(iObjectToSerialize, Formatting.Indented);
+            using (StreamWriter aWriter = new StreamWriter(System.IO.Path.Combine(this.Path, iFileName)))
             {
-                writer.WriteLine(serializedJson);
+                aWriter.WriteLine(aSerializedJson);
             }
         }
     }
