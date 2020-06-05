@@ -49,10 +49,10 @@ namespace Programming_Assessment
                         Math.Abs(aPaymentDue.GetAmount() - aPaymentPayed.GetAmount()) != 0)
                     {
                         PaymentWithDiscrepancy aPaymentNotMatched = new PaymentWithDiscrepancy(aPaymentPayed);
-                        aPaymentNotMatched.AmountDue = aPaymentDue.GetAmount();
+                        aPaymentNotMatched.SetAmountDue(aPaymentDue.GetAmount());
                         aPaymentNotMatched.SetAmount(aPaymentPayed.GetAmount());
                         //Consider only two decimal digits
-                        aPaymentNotMatched.DifferenceBetweenDueAndPayed = (float)Math.Round(Math.Abs(aPaymentDue.GetAmount() - aPaymentPayed.GetAmount()), 2);
+                        aPaymentNotMatched.SetDifferenceBetweenDueAndPayed((float)Math.Round(Math.Abs(aPaymentDue.GetAmount() - aPaymentPayed.GetAmount()), 2));
                         aPaymentsWithDiscrepancy.Add(aPaymentNotMatched);
                     }
                 }
@@ -61,17 +61,17 @@ namespace Programming_Assessment
             foreach (Payment aPaymentDueNotInPayed in aPaymentsDueNotInPayed)
             {
                 PaymentWithDiscrepancy aPaymentNotMatched = new PaymentWithDiscrepancy(aPaymentDueNotInPayed);
-                aPaymentNotMatched.AmountDue = aPaymentDueNotInPayed.GetAmount();
+                aPaymentNotMatched.SetAmountDue(aPaymentDueNotInPayed.GetAmount());
                 aPaymentNotMatched.SetAmount(0);
-                aPaymentNotMatched.DifferenceBetweenDueAndPayed = (float)Math.Round(Math.Abs(aPaymentNotMatched.GetAmount() - aPaymentNotMatched.AmountDue), 2);
+                aPaymentNotMatched.SetDifferenceBetweenDueAndPayed((float)Math.Round(Math.Abs(aPaymentNotMatched.GetAmount() - aPaymentNotMatched.GetAmountDue()), 2));
                 aPaymentsWithDiscrepancy.Add(aPaymentNotMatched);
             }
             foreach (Payment aPaymentPayedNotInDue in aPaymentsPayedNotInDue)
             {
                 PaymentWithDiscrepancy aPaymentNotMatched = new PaymentWithDiscrepancy(aPaymentPayedNotInDue);
                 aPaymentNotMatched.SetAmount(aPaymentPayedNotInDue.GetAmount());
-                aPaymentNotMatched.AmountDue = 0;
-                aPaymentNotMatched.DifferenceBetweenDueAndPayed = (float)Math.Round(Math.Abs(aPaymentNotMatched.GetAmount() - aPaymentNotMatched.AmountDue), 2);
+                aPaymentNotMatched.SetAmountDue(0);
+                aPaymentNotMatched.SetDifferenceBetweenDueAndPayed((float)Math.Round(Math.Abs(aPaymentNotMatched.GetAmount() - aPaymentNotMatched.GetAmountDue()), 2));
                 aPaymentsWithDiscrepancy.Add(aPaymentNotMatched);
             }
 
@@ -81,7 +81,7 @@ namespace Programming_Assessment
         private List<Payment> CalculatePaymentsDue()
         {
             List<Payment> aPaymentsDue = new List<Payment>();
-            HashSet<String> aCustomerIds = new HashSet<String>(Purchases.PurchasesList.Select(purchase => purchase.Customer));
+            HashSet<String> aCustomerIds = new HashSet<String>(Purchases.PurchasesList.Select(aPurchase => aPurchase.Customer));
             foreach (String aCustomerId in aCustomerIds)
             {
                 Dictionary<String, Purchases> aSameMonthsCustomerIdPurchases = DetectSameMonthCustomerIdPurchases(aCustomerId);

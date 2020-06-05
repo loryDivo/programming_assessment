@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 namespace Programming_Assessment
 {
@@ -6,6 +7,7 @@ namespace Programming_Assessment
     {
         public static void Main(string[] args)
         {
+            // Deserialize needed data
             XmlParser<ItemPricesRoot> aXmlParser = new XmlParser<ItemPricesRoot>("data");
             aXmlParser.LoadFile("Prices.xml");
             ItemPricesRoot itemPricesRoot = aXmlParser.Deserialize("ItemPricesRoot");
@@ -20,13 +22,21 @@ namespace Programming_Assessment
 
             PaymentsNotMatched aPaymentsNotMatched = new PaymentsNotMatched(aPurchases, itemPricesRoot, aPaymentsPayed);
 
-            JsonParser<PaymentWithDiscrepancy> aJsonParserPaymentWithDiscrepancy = new JsonParser<PaymentWithDiscrepancy>("data");
 
+            // Calculate Payments that have no matching
             SortedSet<PaymentWithDiscrepancy> aCommonPaymentsWithDiscrepancy = aPaymentsNotMatched.CalculatePaymentsNotMatched();
 
-
+            // Store Payments that have no matching inside JSON file
+            JsonParser<PaymentWithDiscrepancy> aJsonParserPaymentWithDiscrepancy = new JsonParser<PaymentWithDiscrepancy>("data");
             aJsonParserPaymentWithDiscrepancy.Serialize(aCommonPaymentsWithDiscrepancy, "PaymentsNotMatched.json");
-            
+
+            // Store Payments that have no matching inside CSV file
+            PaymentWithDiscrepancyText aPaymentWithDiscrepancyText = new PaymentWithDiscrepancyText();
+
+            using (PaymentWithDiscrepancyWriter aPaymentWithDiscrepancyWriter = new PaymentWithDiscrepancyWriter("data/PaymentsNotMatched.csv", false, Encoding.Default, aPaymentWithDiscrepancyText))
+            {
+                aPaymentWithDiscrepancyWriter.WritePaymentsWithDiscrepancy(aCommonPaymentsWithDiscrepancy);
+            }
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Programming_Assessment
         public override void LoadFile(String iFileName)
         {
             // load the file using;
-            var aXmlDocument = XDocument.Load(System.IO.Path.Combine(this.Path, iFileName));
+            XDocument aXmlDocument = XDocument.Load(System.IO.Path.Combine(this.Path, iFileName));
             // convert the xml into string
             this.MarkupString = aXmlDocument.ToString();
         }

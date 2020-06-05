@@ -25,7 +25,7 @@ namespace Programming_Assessment
             return aDeserializedObject;
         }
 
-        public void Serialize(SortedSet<T> iObjectToSerialize, String iFileName)
+        public void Serialize(IEnumerable<T> iObjectToSerialize, String iFileName)
         {
             String aSerializedJson = JsonConvert.SerializeObject(iObjectToSerialize, Formatting.Indented);
             using (StreamWriter aWriter = new StreamWriter(System.IO.Path.Combine(this.Path, iFileName)))
