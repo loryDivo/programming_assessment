@@ -8,22 +8,7 @@ namespace Programming_Assessment
         public String Customer { get; set; }
         public int Year { get; set; }
         public int Month { get; set; }
-        [JsonProperty("Amount")]
-        private float Amount;
-
-        public float GetAmount()
-        {
-            return Amount;
-        }
-
-        public void SetAmount(float iAmount)
-        {
-            if (Amount < 0)
-            {
-                throw new ArgumentException("Amount cannot be less than 0");
-            }
-            Amount = iAmount;
-        }
+        public float Amount { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -47,7 +32,7 @@ namespace Programming_Assessment
             this.Customer = iCustomer;
             this.Year = iYear;
             this.Month = iMonth;
-            this.SetAmount(iAmount);
+            this.Amount = iAmount;
         }
         public Payment(String iCustomer, DateTime iDate, float iAmount): this(iCustomer, iDate.Year, iDate.Month, iAmount)
         {

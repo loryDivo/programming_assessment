@@ -1,11 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "oBI4vfF4AR9LfljhDrJetq+YjTaoOq4OCR6Ze+D/FC7h4VUQJVlzOIRmOKE95g5ZxB7ccnHvzDwkySfR3kWxVw==",
+  "dgSpecHash": "fEGe/n409CjBJujeNVf6riVIhCx72tNtNn5yzJFNECJAXhM0jy0IRgs0JL/lvoKAh69bguxRUNa9iS3YaQUyLA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ldivito\\source\\repos\\Programming_Assessment\\Programming_Assessment\\Programming_Assessment.csproj",
+  "projectFilePath": "/Users/lorenzodivito/Projects/programming_assessment/Programming_Assessment/Programming_Assessment.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\ldivito\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
-    "C:\\Users\\ldivito\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.2\\microsoft.aspnetcore.app.ref.3.1.2.nupkg.sha512"
+    "/Users/lorenzodivito/.nuget/packages/newtonsoft.json/12.0.3/newtonsoft.json.12.0.3.nupkg.sha512"
   ],
   "logs": []
 }

@@ -24,18 +24,18 @@ namespace Programming_Assessment
 
 
             // Calculate Payments that have no matching
-            SortedSet<PaymentWithDiscrepancy> aCommonPaymentsWithDiscrepancy = aPaymentsNotMatched.CalculatePaymentsNotMatched();
+            SortedSet<PaymentNotMatched> aCommonPaymentsWithDiscrepancy = aPaymentsNotMatched.CalculatePaymentsNotMatched();
 
             // Store Payments that have no matching inside JSON file
-            JsonParser<PaymentWithDiscrepancy> aJsonParserPaymentWithDiscrepancy = new JsonParser<PaymentWithDiscrepancy>("data");
+            JsonParser<PaymentNotMatched> aJsonParserPaymentWithDiscrepancy = new JsonParser<PaymentNotMatched>("data");
             aJsonParserPaymentWithDiscrepancy.Serialize(aCommonPaymentsWithDiscrepancy, "PaymentsNotMatched.json");
 
             // Store Payments that have no matching inside CSV file
-            PaymentWithDiscrepancyText aPaymentWithDiscrepancyText = new PaymentWithDiscrepancyText();
+            PaymentNotMatchedText aPaymentWithDiscrepancyText = new PaymentNotMatchedText();
 
-            using (PaymentWithDiscrepancyWriter aPaymentWithDiscrepancyWriter = new PaymentWithDiscrepancyWriter("data/PaymentsNotMatched.csv", false, Encoding.Default, aPaymentWithDiscrepancyText))
+            using (PaymentNotMatchedWriter aPaymentWithDiscrepancyWriter = new PaymentNotMatchedWriter("data/PaymentsNotMatched.csv", false, Encoding.Default, aPaymentWithDiscrepancyText))
             {
-                aPaymentWithDiscrepancyWriter.WritePaymentsWithDiscrepancy(aCommonPaymentsWithDiscrepancy);
+                aPaymentWithDiscrepancyWriter.WritePaymentsNotMatched(aCommonPaymentsWithDiscrepancy);
             }
         }
     }
