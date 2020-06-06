@@ -19,6 +19,11 @@ namespace Programming_Assessment
                    Amount == payment.Amount;
         }
 
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Customer, Year, Month, Amount);
+        }
+
         public Payment(String iCustomer, int iYear, int iMonth, float iAmount)
         {
             if (string.IsNullOrEmpty(iCustomer))

@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "fEGe/n409CjBJujeNVf6riVIhCx72tNtNn5yzJFNECJAXhM0jy0IRgs0JL/lvoKAh69bguxRUNa9iS3YaQUyLA==",
+  "dgSpecHash": "MdAEuf5mfv0EZSYySWzaN72E3k9NmPZBpgICTUMzwihrOAEaOv7XBPCx/nd/BiyT00WJagQtWQcL1g6YGYYapg==",
   "success": true,
   "projectFilePath": "/Users/lorenzodivito/Projects/programming_assessment/Programming_Assessment/Programming_Assessment.csproj",
   "expectedPackageFiles": [
+    "/Users/lorenzodivito/.nuget/packages/htmlagilitypack/1.11.24/htmlagilitypack.1.11.24.nupkg.sha512",
     "/Users/lorenzodivito/.nuget/packages/newtonsoft.json/12.0.3/newtonsoft.json.12.0.3.nupkg.sha512"
   ],
   "logs": []

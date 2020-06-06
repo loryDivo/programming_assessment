@@ -27,3 +27,4 @@ C:/Users/ldivito/source/repos/Programming_Assessment/Programming_Assessment/obj/
 C:/Users/ldivito/source/repos/Programming_Assessment/Programming_Assessment/obj/Debug/netcoreapp3.1/Programming_Assessment.pdb
 C:/Users/ldivito/source/repos/Programming_Assessment/Programming_Assessment/obj/Debug/netcoreapp3.1/Programming_Assessment.genruntimeconfig.cache
 C:/Users/ldivito/source/repos/Programming_Assessment/Programming_Assessment/obj/Debug/netcoreapp3.1/Programming_Assessment.csprojAssemblyReference.cache
+/Users/lorenzodivito/Projects/programming_assessment/Programming_Assessment/bin/Debug/netcoreapp3.1/HtmlAgilityPack.dll

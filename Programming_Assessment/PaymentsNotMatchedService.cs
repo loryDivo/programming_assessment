@@ -26,19 +26,19 @@ namespace Programming_Assessment
             List<Payment> aPaymentsPayedWithDiscrepancy = PaymentsPayed.Where(paymentPayed => !aPaymentsDue.Contains(paymentPayed)).ToList();
 
             List<PaymentNotMatched> aPaymentsDueNotInPayed = (from aPaymentDueWithDiscrepancy in aPaymentsDueWithDiscrepancy
-                                                             where !aPaymentsPayedWithDiscrepancy
-                                                             .Any(aPaymentPayedWithDiscrepancy => aPaymentPayedWithDiscrepancy.Customer == aPaymentDueWithDiscrepancy.Customer &&
-                                                                                                  aPaymentPayedWithDiscrepancy.Month == aPaymentDueWithDiscrepancy.Month &&
-                                                                                                  aPaymentPayedWithDiscrepancy.Year == aPaymentDueWithDiscrepancy.Year)
-                                                             select new PaymentNotMatched()
-                                                             {
-                                                                 Customer = aPaymentDueWithDiscrepancy.Customer,
-                                                                 Year = aPaymentDueWithDiscrepancy.Year,
-                                                                 Month = aPaymentDueWithDiscrepancy.Month,
-                                                                 Amount = 0,
-                                                                 AmountDue = aPaymentDueWithDiscrepancy.Amount,
-                                                                 DifferenceBetweenDueAndPayed = (float)Math.Round(Math.Abs(0 - aPaymentDueWithDiscrepancy.Amount), 2)
-                                                             }).ToList();
+                                                              where !aPaymentsPayedWithDiscrepancy
+                                                              .Any(aPaymentPayedWithDiscrepancy => aPaymentPayedWithDiscrepancy.Customer == aPaymentDueWithDiscrepancy.Customer &&
+                                                                                                   aPaymentPayedWithDiscrepancy.Month == aPaymentDueWithDiscrepancy.Month &&
+                                                                                                   aPaymentPayedWithDiscrepancy.Year == aPaymentDueWithDiscrepancy.Year)
+                                                              select new PaymentNotMatched()
+                                                              {
+                                                                  Customer = aPaymentDueWithDiscrepancy.Customer,
+                                                                  Year = aPaymentDueWithDiscrepancy.Year,
+                                                                  Month = aPaymentDueWithDiscrepancy.Month,
+                                                                  Amount = 0,
+                                                                  AmountDue = aPaymentDueWithDiscrepancy.Amount,
+                                                                  DifferenceBetweenDueAndPayed = (float)Math.Round(Math.Abs(0 - aPaymentDueWithDiscrepancy.Amount), 2)
+                                                              }).ToList();
 
             List<PaymentNotMatched> aPaymentsPayedNotInDue = (from aPaymentPayedWithDiscrepancy in aPaymentsPayedWithDiscrepancy
                                                               where !aPaymentsDueWithDiscrepancy
@@ -71,17 +71,18 @@ namespace Programming_Assessment
                                                              DifferenceBetweenDueAndPayed = (float)Math.Round(Math.Abs(aPaymentPayedWithDiscrepancy.Amount - aPaymentDueWithDiscrepancy.Amount), 2)
                                                          })
                                                         .ToList();
-
+            // Sort Payment that are common both to Payments Payed and Payments Due
             foreach (PaymentNotMatched aPaymentInCommon in aPaymentsInCommon)
             {
                 aPaymentsNotMatched.Add(aPaymentInCommon);
             }
 
-            // Detect and Sort Payment that are not inside the Payments Payed or Payment Due and calculate the correct AmountDue and AmountPayed
+            // Sort Payment that are not inside the Payments Payed
             foreach (PaymentNotMatched aPaymentDueNotInPayed in aPaymentsDueNotInPayed)
             {
                 aPaymentsNotMatched.Add(aPaymentDueNotInPayed);
             }
+            // Sort Payment that are not inside the Payments Due
             foreach (PaymentNotMatched aPaymentPayedNotInDue in aPaymentsPayedNotInDue)
             {
                 aPaymentsNotMatched.Add(aPaymentPayedNotInDue);

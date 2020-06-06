@@ -35,7 +35,13 @@ namespace Programming_Assessment
 
             using (PaymentNotMatchedWriter aPaymentWithDiscrepancyWriter = new PaymentNotMatchedWriter("data/PaymentsNotMatched.csv", false, Encoding.Default, aPaymentWithDiscrepancyText))
             {
-                aPaymentWithDiscrepancyWriter.WritePaymentsNotMatched(aCommonPaymentsWithDiscrepancy);
+                aPaymentWithDiscrepancyWriter.WritePaymentsNotMatchedToCsv(aCommonPaymentsWithDiscrepancy);
+            }
+
+            // Store Payments that have no matching inside HTML file
+            using (PaymentNotMatchedWriter aPaymentWithDiscrepancyWriter = new PaymentNotMatchedWriter("data/PaymentsNotMatched.html", false, Encoding.Default, aPaymentWithDiscrepancyText))
+            {
+                aPaymentWithDiscrepancyWriter.WritePaymentsNotMatchedToHtml(aCommonPaymentsWithDiscrepancy);
             }
         }
     }
