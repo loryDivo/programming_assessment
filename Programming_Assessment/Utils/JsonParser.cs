@@ -24,7 +24,11 @@ namespace Programming_Assessment
             List<T> aDeserializedObject = JsonConvert.DeserializeObject<List<T>>(this.MarkupString);
             return aDeserializedObject;
         }
-
+        /// <summary>
+        /// This method serialize <see cref="IEnumerable{T}"/> inside a specific file
+        /// </summary>
+        /// <param name="iObjectToSerialize"> <see cref="IEnumerable{T}"/ to serialize></param>
+        /// <param name="iFileName"> the name of the file </param>
         public void Serialize(IEnumerable<T> iObjectToSerialize, String iFileName)
         {
             String aSerializedJson = JsonConvert.SerializeObject(iObjectToSerialize, Formatting.Indented);

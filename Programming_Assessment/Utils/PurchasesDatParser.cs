@@ -20,7 +20,12 @@ namespace Programming_Assessment
             this.MarkupString = aStreamReader.ReadToEnd().Trim();
             aStreamReader.Close();
         }
-
+        /// <summary>
+        /// This method deserialize from Purchases.dat file and create <see cref="Purchases"/> with all the information inside
+        /// </summary>
+        /// <returns>
+        /// <see cref="Purchases"/> with all the <see cref="Purchase"/> deserialized
+        /// </returns>
         public Purchases Deserialize()
         {
             Purchases aPurchases = new Purchases();

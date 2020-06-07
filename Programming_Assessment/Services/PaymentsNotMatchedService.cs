@@ -15,6 +15,14 @@ namespace Programming_Assessment
             this.ItemPricesRoot = iItemPricesRoot;
             this.PaymentsPayed = iPaymentsPayed;
         }
+
+        /// <summary>
+        ///  This method calculate the payments that have no match between the Prices.xml and Purchases.Dat items
+        /// </summary>
+        /// <returns>
+        /// <see cref="SortedSet{PaymentNotMatched}"/> items order by biggest difference between due and payed 
+        /// </returns>
+
         public SortedSet<PaymentNotMatched> CalculatePaymentsNotMatched()
         {
             List<Payment> aPaymentsDue = CalculatePaymentsDue();
@@ -91,13 +99,19 @@ namespace Programming_Assessment
             return aPaymentsNotMatched;
         }
 
+        /// <summary>
+        /// This method calculate all the payments due calculated from <see cref="Purchases.PurchasesList"/> and <see cref="ItemPricesRoot.ItemPrices.ItemsPriceSet"/>
+        /// </summary>
+        /// <returns>
+        /// <see cref="List{Payment}"/> built from <see cref="Purchases"/> and <see cref="ItemPricesRoot.ItemPrices.ItemsPriceSet"/>
+        /// </returns>
         private List<Payment> CalculatePaymentsDue()
         {
             List<Payment> aPaymentsDue = new List<Payment>();
             HashSet<String> aCustomerIds = new HashSet<String>(Purchases.PurchasesList.Select(aPurchase => aPurchase.Customer));
             foreach (String aCustomerId in aCustomerIds)
             {
-                Dictionary<String, Purchases> aSameMonthsCustomerIdPurchases = DetectSameMonthCustomerIdPurchases(aCustomerId);
+                Dictionary<String, Purchases> aSameMonthsCustomerIdPurchases = DetectSameMonthsCustomerIdPurchases(aCustomerId);
                 // For each month it is needed to calculate the total amount due
                 foreach (KeyValuePair<String, Purchases> aSameMonthCustomerIdPurchases in aSameMonthsCustomerIdPurchases)
                 {
@@ -110,6 +124,13 @@ namespace Programming_Assessment
             return aPaymentsDue;
         }
 
+        /// <summary>
+        /// This method calculate all the payments for a specific customerId for a specific month
+        /// </summary>
+        /// <param name="iPurchases">for a specific month</param>
+        /// <returns>
+        /// Total amount for the specific month calculated from <see cref="Purchases.PurchasesList"/> and <see cref="ItemPricesRoot.ItemPrices.ItemPricesSet"/>
+        /// </returns>
         private float CalculateCustomerIdMonthAmount(Purchases iPurchases)
         {
             float aMonthAmount = 0;
@@ -125,7 +146,14 @@ namespace Programming_Assessment
             return (float)Math.Round(aMonthAmount, 2);
         }
 
-        private Dictionary<String, Purchases> DetectSameMonthCustomerIdPurchases(String iCustomerId)
+        /// <summary>
+        /// This method calculate all the <see cref="Purchases"/> related to a customer grouped by month
+        /// </summary>
+        /// <param name="iCustomerId" for whom the <see cref="Purchases"/> are grouped </param>
+        /// <returns>
+        /// <see cref="Dictionary{String, Purchases}"/> with key the Month and value the associated <see cref="Purchases"/>
+        /// </returns>
+        private Dictionary<String, Purchases> DetectSameMonthsCustomerIdPurchases(String iCustomerId)
         {
             Purchases aSameCustomerIdPurchases = new Purchases();
             aSameCustomerIdPurchases.PurchasesList = Purchases.PurchasesList.Select(aPurchase => new Purchase()

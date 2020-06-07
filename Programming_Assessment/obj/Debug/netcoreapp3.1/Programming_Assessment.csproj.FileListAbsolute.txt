@@ -5,7 +5,6 @@
 /Users/lorenzodivito/Projects/programming_assessment/Programming_Assessment/bin/Debug/netcoreapp3.1/Programming_Assessment.pdb
 /Users/lorenzodivito/Projects/programming_assessment/Programming_Assessment/bin/Debug/netcoreapp3.1/HtmlAgilityPack.dll
 /Users/lorenzodivito/Projects/programming_assessment/Programming_Assessment/bin/Debug/netcoreapp3.1/Newtonsoft.Json.dll
-/Users/lorenzodivito/Projects/programming_assessment/Programming_Assessment/obj/Debug/netcoreapp3.1/Programming_Assessment.csprojAssemblyReference.cache
 /Users/lorenzodivito/Projects/programming_assessment/Programming_Assessment/obj/Debug/netcoreapp3.1/Programming_Assessment.AssemblyInfoInputs.cache
 /Users/lorenzodivito/Projects/programming_assessment/Programming_Assessment/obj/Debug/netcoreapp3.1/Programming_Assessment.AssemblyInfo.cs
 /Users/lorenzodivito/Projects/programming_assessment/Programming_Assessment/obj/Debug/netcoreapp3.1/Programming_Assessment.csproj.CoreCompileInputs.cache

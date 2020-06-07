@@ -1,19 +1,27 @@
 ﻿<Properties StartupConfiguration="{3298925E-3004-474E-ACC0-F0B2F24ECAC6}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Programming_Assessment/data/PaymentsNotMatched.json">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Programming_Assessment/Program.cs">
     <Files>
-      <File FileName="Programming_Assessment/data/PaymentsNotMatched.csv" Line="1" Column="1" />
-      <File FileName="Programming_Assessment/data/PaymentsNotMatched.json" Line="1" Column="1" />
+      <File FileName="Programming_Assessment/Services/PaymentsNotMatchedService.cs" Line="1" Column="1" />
+      <File FileName="Programming_Assessment/Models/Purchases.cs" Line="2" Column="34" />
+      <File FileName="Programming_Assessment/Models/PaymentNotMatched.cs" Line="1" Column="1" />
+      <File FileName="Programming_Assessment/Models/Prices.cs" Line="1" Column="1" />
+      <File FileName="Programming_Assessment/Models/Payment.cs" Line="1" Column="1" />
+      <File FileName="Programming_Assessment/Utils/JsonParser.cs" Line="1" Column="1" />
+      <File FileName="Programming_Assessment/Utils/Parser.cs" Line="1" Column="1" />
+      <File FileName="Programming_Assessment/Utils/PurchasesDatParser.cs" Line="1" Column="1" />
+      <File FileName="Programming_Assessment/Utils/XmlParser.cs" Line="1" Column="1" />
+      <File FileName="Programming_Assessment/Program.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Programming_Assessment" expanded="True">
             <Node name="Programming_Assessment" expanded="True">
-              <Node name="data" expanded="True">
-                <Node name="PaymentsNotMatched.json" selected="True" />
-              </Node>
+              <Node name="data" expanded="True" />
               <Node name="Models" expanded="True" />
               <Node name="Services" expanded="True" />
+              <Node name="Utils" expanded="True" />
+              <Node name="Program.cs" selected="True" />
             </Node>
           </Node>
         </State>
