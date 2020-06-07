@@ -117,7 +117,7 @@ namespace Programming_Assessment
             {
                 foreach (Item aItem in aPurchase.Items)
                 {
-                    ItemPrice aItemPrice = this.ItemPricesRoot.ItemPrices.ItemPriceSet.First(itemPrice => itemPrice.Item == aItem.ItemNumber);
+                    ItemPrice aItemPrice = this.ItemPricesRoot.ItemPrices.ItemPriceSet.First(aItemPrice => aItemPrice.ItemNumber == aItem.ItemNumber);
                     aMonthAmount += aItemPrice.Price;
                 }
             }

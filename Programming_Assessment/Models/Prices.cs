@@ -19,7 +19,7 @@ namespace Programming_Assessment
     public class ItemPrice
     {
         [XmlElement(ElementName = "Item")]
-        public string Item { get; set; }
+        public string ItemNumber { get; set; }
         [XmlElement(ElementName = "Price")]
         public float Price { get; set; }
     }
