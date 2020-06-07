@@ -1,29 +1,18 @@
 ﻿<Properties StartupConfiguration="{3298925E-3004-474E-ACC0-F0B2F24ECAC6}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Programming_Assessment/Models/Purchases.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Programming_Assessment/data/PaymentsNotMatched.json">
     <Files>
-      <File FileName="Programming_Assessment/PaymentsNotMatchedService.cs" Line="120" Column="145" />
-      <File FileName="Programming_Assessment/Payment.cs" />
-      <File FileName="Programming_Assessment/PaymentNotMatched.cs" />
-      <File FileName="Programming_Assessment/Program.cs" Line="1" Column="1" />
-      <File FileName="Programming_Assessment/Prices.cs" Line="1" Column="1" />
-      <File FileName="Programming_Assessment/PurchasesDatParser.cs" />
-      <File FileName="Programming_Assessment/XmlParser.cs" />
-      <File FileName="Programming_Assessment/Parser.cs" />
-      <File FileName="Programming_Assessment/JsonParser.cs" />
+      <File FileName="Programming_Assessment/data/PaymentsNotMatched.csv" Line="1" Column="1" />
       <File FileName="Programming_Assessment/data/PaymentsNotMatched.json" Line="1" Column="1" />
-      <File FileName="Programming_Assessment/data/Prices.xml" Line="189" Column="19" />
-      <File FileName="Programming_Assessment/data/Purchases.dat" Line="1" Column="1" />
-      <File FileName="Programming_Assessment/Models/Purchases.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Programming_Assessment" expanded="True">
             <Node name="Programming_Assessment" expanded="True">
-              <Node name="data" expanded="True" />
-              <Node name="Models" expanded="True">
-                <Node name="Purchases.cs" selected="True" />
+              <Node name="data" expanded="True">
+                <Node name="PaymentsNotMatched.json" selected="True" />
               </Node>
+              <Node name="Models" expanded="True" />
               <Node name="Services" expanded="True" />
             </Node>
           </Node>
