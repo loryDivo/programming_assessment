@@ -1,5 +1,5 @@
 ﻿<Properties StartupConfiguration="{3298925E-3004-474E-ACC0-F0B2F24ECAC6}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Programming_Assessment/Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Programming_Assessment/data/PaymentsNotMatched.json">
     <Files>
       <File FileName="Programming_Assessment/Services/PaymentsNotMatchedService.cs" Line="1" Column="1" />
       <File FileName="Programming_Assessment/Models/Purchases.cs" Line="2" Column="34" />
@@ -11,17 +11,24 @@
       <File FileName="Programming_Assessment/Utils/PurchasesDatParser.cs" Line="1" Column="1" />
       <File FileName="Programming_Assessment/Utils/XmlParser.cs" Line="1" Column="1" />
       <File FileName="Programming_Assessment/Program.cs" Line="1" Column="1" />
+      <File FileName="Programming_Assessment/data/Purchases.dat" Line="3" Column="1" />
+      <File FileName="Programming_Assessment/data/Payments.json" Line="6" Column="17" />
+      <File FileName="Programming_Assessment/data/Prices.xml" Line="1" Column="1" />
+      <File FileName="Programming_Assessment/data/PaymentsNotMatched.html" Line="1" Column="1" />
+      <File FileName="Programming_Assessment/data/PaymentsNotMatched.csv" Line="1" Column="1" />
+      <File FileName="Programming_Assessment/data/PaymentsNotMatched.json" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Programming_Assessment" expanded="True">
             <Node name="Programming_Assessment" expanded="True">
-              <Node name="data" expanded="True" />
+              <Node name="data" expanded="True">
+                <Node name="PaymentsNotMatched.json" selected="True" />
+              </Node>
               <Node name="Models" expanded="True" />
               <Node name="Services" expanded="True" />
               <Node name="Utils" expanded="True" />
-              <Node name="Program.cs" selected="True" />
             </Node>
           </Node>
         </State>

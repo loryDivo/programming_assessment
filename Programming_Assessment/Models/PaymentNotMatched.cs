@@ -135,7 +135,7 @@ namespace Programming_Assessment
             aPaymentNotMatchedAmountDueRowName.InnerHtml = AmountDueTitle;
             aPaymentNotMatchedRowName.ChildNodes.Append(aPaymentNotMatchedAmountDueRowName);
             HtmlNode aPaymentNotMatchedDifferenceBetweenDueAndPayedRowName = iPaymentNotMatchedHtml.CreateElement("td");
-            aPaymentNotMatchedAmountDueRowName.InnerHtml = DifferenceBetweenDueAndPayedTitle;
+            aPaymentNotMatchedDifferenceBetweenDueAndPayedRowName.InnerHtml = DifferenceBetweenDueAndPayedTitle;
             aPaymentNotMatchedRowName.ChildNodes.Append(aPaymentNotMatchedDifferenceBetweenDueAndPayedRowName);
         }
         public void AddPaymentNotMatchedToHtml(HtmlDocument iPaymentNotMatchedHtml, HtmlNode iPaymentNotMatchedTable, PaymentNotMatched iPaymentNotMatched)
@@ -158,7 +158,7 @@ namespace Programming_Assessment
             aPaymentNotMatchedAmountDueRow.InnerHtml = iPaymentNotMatched.AmountDue.ToString();
             aPaymentNotMatchedRow.ChildNodes.Append(aPaymentNotMatchedAmountDueRow);
             HtmlNode aPaymentNotMatchedDifferenceBetweenDueAndPayedRow = iPaymentNotMatchedHtml.CreateElement("td");
-            aPaymentNotMatchedAmountDueRow.InnerHtml = iPaymentNotMatched.DifferenceBetweenDueAndPayed.ToString();
+            aPaymentNotMatchedDifferenceBetweenDueAndPayedRow.InnerHtml = iPaymentNotMatched.DifferenceBetweenDueAndPayed.ToString();
             aPaymentNotMatchedRow.ChildNodes.Append(aPaymentNotMatchedDifferenceBetweenDueAndPayedRow);
         }
 
