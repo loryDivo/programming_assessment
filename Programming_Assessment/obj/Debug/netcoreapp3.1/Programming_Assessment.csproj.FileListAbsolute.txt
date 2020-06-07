@@ -12,3 +12,4 @@
 /Users/lorenzodivito/Projects/programming_assessment/Programming_Assessment/obj/Debug/netcoreapp3.1/Programming_Assessment.dll
 /Users/lorenzodivito/Projects/programming_assessment/Programming_Assessment/obj/Debug/netcoreapp3.1/Programming_Assessment.pdb
 /Users/lorenzodivito/Projects/programming_assessment/Programming_Assessment/obj/Debug/netcoreapp3.1/Programming_Assessment.genruntimeconfig.cache
+/Users/lorenzodivito/Projects/programming_assessment/Programming_Assessment/obj/Debug/netcoreapp3.1/Programming_Assessment.csprojAssemblyReference.cache

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Programming_Assessment
@@ -96,9 +97,9 @@ namespace Programming_Assessment
         }
         public String AsCsv(IEnumerable<PaymentNotMatched> iPaymentsNotMatched)
         {
-            if (iPaymentsNotMatched == null)
+            if (iPaymentsNotMatched == null | !iPaymentsNotMatched.Any())
             {
-                throw new ArgumentNullException("PaymentsNotMatched is null");
+                throw new ArgumentNullException("PaymentsNotMatched is null or empty");
             }
             StringBuilder aPaymentsNotMatchedCsv = new StringBuilder();
             aPaymentsNotMatchedCsv.AppendLine(CustomerTitle + ","
@@ -164,6 +165,10 @@ namespace Programming_Assessment
 
         public String AsHtml(PaymentNotMatched iPaymentNotMatched)
         {
+            if (iPaymentNotMatched == null)
+            {
+                throw new ArgumentNullException("PaymentNotMatched is null");
+            }
             HtmlDocument aPaymentNotMatchedHtml = new HtmlDocument();
             // Html Structure
             HtmlNode aPaymentNotMatchedHtmlDom = HtmlNode.CreateNode("<html><head></head><body></body></html>");
@@ -181,6 +186,10 @@ namespace Programming_Assessment
 
         public String AsHtml(IEnumerable<PaymentNotMatched> iPaymentsNotMatched)
         {
+            if (iPaymentsNotMatched == null | !iPaymentsNotMatched.Any())
+            {
+                throw new ArgumentNullException("PaymentsNotMatched is null or empty");
+            }
             HtmlDocument aPaymentNotMatchedHtml = new HtmlDocument();
             // Html Structure
             HtmlNode aPaymentNotMatchedHtmlDom = HtmlNode.CreateNode("<html><head></head><body></body></html>");
@@ -213,7 +222,7 @@ namespace Programming_Assessment
         {
             if (iPaymentNotMatchedFormatter == null)
             {
-                throw new ArgumentNullException("studentToCsv");
+                throw new ArgumentNullException("The iPaymentNotMatchedFormatter is null");
             }
 
             this.PaymentNotMatchedFormatter = iPaymentNotMatchedFormatter;
