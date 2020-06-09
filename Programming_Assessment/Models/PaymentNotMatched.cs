@@ -1,4 +1,6 @@
 ﻿using HtmlAgilityPack;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,39 +11,44 @@ namespace Programming_Assessment
 {
     public class PaymentNotMatched : Payment, IComparable<PaymentNotMatched>
     {
-        public float AmountDue { get; set; }
-        public float DifferenceBetweenDueAndPayed { get; set; }
+        public float AmountDue { get; private set; }
+        public float DifferenceBetweenDueAndPayed { get; private set; }
 
 
-        public PaymentNotMatched(Payment iPayment, float iAmount, float iAmountDue, float iDifferenceBetweenDueAndPayed) : base(iPayment.Customer, iPayment.Year, iPayment.Month, iAmount)
+        public PaymentNotMatched(Payment iPayment, float iAmountDue, float iDifferenceBetweenDueAndPayed) : base(iPayment.Customer, iPayment.Year, iPayment.Month, iPayment.Amount)
         {
-            this.AmountDue = iAmountDue;
-            this.DifferenceBetweenDueAndPayed = iDifferenceBetweenDueAndPayed;
-        }
-        public PaymentNotMatched()
-        {
-        }
-        public float GetDifferenceBetweenDueAndPayed()
-        {
-            return DifferenceBetweenDueAndPayed;
-        }
-
-        public void SetDifferenceBetweenDueAndPayed(float iDifferenceBetweenDueAndPayed)
-        {
+            if (iAmountDue < 0)
+            {
+                throw new ArgumentException("AmountDue cannot be less than 0");
+            }
             if (iDifferenceBetweenDueAndPayed < 0)
             {
                 throw new ArgumentException("Difference cannot be less than 0");
             }
-            DifferenceBetweenDueAndPayed = iDifferenceBetweenDueAndPayed;
+            this.AmountDue = iAmountDue;
+            this.DifferenceBetweenDueAndPayed = iDifferenceBetweenDueAndPayed;
+        }
+        public PaymentNotMatched(String iCustomer, int iYear, int iMonth, float iAmount, float iAmountDue, float iDifferenceBetweenDueAndPayed) : base(iCustomer, iYear, iMonth, iAmount)
+        {
+            if (iAmountDue < 0)
+            {
+                throw new ArgumentException("AmountDue cannot be less than 0");
+            }
+            if (iDifferenceBetweenDueAndPayed < 0)
+            {
+                throw new ArgumentException("Difference cannot be less than 0");
+            }
+            this.AmountDue = iAmountDue;
+            this.DifferenceBetweenDueAndPayed = iDifferenceBetweenDueAndPayed;
         }
 
         public int CompareTo(PaymentNotMatched iOther)
         {
-            if(this.GetDifferenceBetweenDueAndPayed().CompareTo(iOther.GetDifferenceBetweenDueAndPayed()) > 0)
+            if(this.DifferenceBetweenDueAndPayed.CompareTo(iOther.DifferenceBetweenDueAndPayed) > 0)
             {
                 return -1;
             }
-            else if (this.GetDifferenceBetweenDueAndPayed().CompareTo(iOther.GetDifferenceBetweenDueAndPayed()) < 0)
+            else if (this.DifferenceBetweenDueAndPayed.CompareTo(iOther.DifferenceBetweenDueAndPayed) < 0)
             {
                 return 1;
             }
@@ -57,20 +64,16 @@ namespace Programming_Assessment
         String AsCsv(IEnumerable<PaymentNotMatched> iPaymentsNotMatched);
         String AsHtml(IEnumerable<PaymentNotMatched> iPaymentsNotMatched);
         String AsHtml(PaymentNotMatched iPaymentNotMatched);
-        String AddTitleToCsv();
-        void AddPaymentNotMatchedToHtml(HtmlDocument iPaymentNotMatchedHtml, HtmlNode iPaymentNotMatchedTable, PaymentNotMatched iPaymentNotMatched);
-        void AddTitleToHtml(HtmlDocument iPaymentNotMatchedHtml, HtmlNode iPaymentNotMatchedTable);
-
         }
     public sealed class PaymentNotMatchedText : IPaymentNotMatchedFormatter
     {
-        private static String CustomerTitle = "Customer";
-        private static String YearTitle = "Year";
-        private static String MonthTitle = "Month";
-        private static String AmountTitle = "Amount";
-        private static String AmountDueTitle = "AmountDue";
-        private static String DifferenceBetweenDueAndPayedTitle = "DifferenceBetweenDueAndPayed";
-        public String AddTitleToCsv()
+        private const String CustomerTitle = "Customer";
+        private const String YearTitle = "Year";
+        private const String MonthTitle = "Month";
+        private const String AmountTitle = "Amount";
+        private const String AmountDueTitle = "AmountDue";
+        private const String DifferenceBetweenDueAndPayedTitle = "DifferenceBetweenDueAndPayed";
+        private String AddTitleToCsv()
         {
             return (CustomerTitle + "," + YearTitle + "," + MonthTitle + "," + AmountTitle + "," + AmountDueTitle + "," + DifferenceBetweenDueAndPayedTitle).ToString();
         }
@@ -97,7 +100,7 @@ namespace Programming_Assessment
         }
         public String AsCsv(IEnumerable<PaymentNotMatched> iPaymentsNotMatched)
         {
-            if (iPaymentsNotMatched == null | !iPaymentsNotMatched.Any())
+            if (iPaymentsNotMatched == null || !iPaymentsNotMatched.Any())
             {
                 throw new ArgumentNullException("PaymentsNotMatched is null or empty");
             }
@@ -115,7 +118,7 @@ namespace Programming_Assessment
             return aPaymentsNotMatchedCsv.ToString();
         }
 
-        public void AddTitleToHtml(HtmlDocument iPaymentNotMatchedHtml, HtmlNode iPaymentNotMatchedTable)
+        private  void AddTitleToHtml(HtmlDocument iPaymentNotMatchedHtml, HtmlNode iPaymentNotMatchedTable)
         {
             // Insert row with field names
             HtmlNode aPaymentNotMatchedRowName = iPaymentNotMatchedHtml.CreateElement("tr");
@@ -139,8 +142,12 @@ namespace Programming_Assessment
             aPaymentNotMatchedDifferenceBetweenDueAndPayedRowName.InnerHtml = DifferenceBetweenDueAndPayedTitle;
             aPaymentNotMatchedRowName.ChildNodes.Append(aPaymentNotMatchedDifferenceBetweenDueAndPayedRowName);
         }
-        public void AddPaymentNotMatchedToHtml(HtmlDocument iPaymentNotMatchedHtml, HtmlNode iPaymentNotMatchedTable, PaymentNotMatched iPaymentNotMatched)
+        private void AddPaymentNotMatchedToHtml(HtmlDocument iPaymentNotMatchedHtml, HtmlNode iPaymentNotMatchedTable, PaymentNotMatched iPaymentNotMatched)
         {
+            if (iPaymentNotMatched == null)
+            {
+                throw new ArgumentNullException("PaymentNotMatched is null");
+            }
             HtmlNode aPaymentNotMatchedRow = iPaymentNotMatchedHtml.CreateElement("tr");
             iPaymentNotMatchedTable.ChildNodes.Append(aPaymentNotMatchedRow);
             HtmlNode aPaymentNotMatchedCustomerRow = iPaymentNotMatchedHtml.CreateElement("td");
@@ -186,7 +193,7 @@ namespace Programming_Assessment
 
         public String AsHtml(IEnumerable<PaymentNotMatched> iPaymentsNotMatched)
         {
-            if (iPaymentsNotMatched == null | !iPaymentsNotMatched.Any())
+            if (iPaymentsNotMatched == null || !iPaymentsNotMatched.Any())
             {
                 throw new ArgumentNullException("PaymentsNotMatched is null or empty");
             }
@@ -240,17 +247,17 @@ namespace Programming_Assessment
 
         public void WritePaymentsNotMatchedToCsv(IEnumerable<PaymentNotMatched> iPaymentsNotMatched)
         {
-            if (iPaymentsNotMatched == null)
+            if (iPaymentsNotMatched == null || !iPaymentsNotMatched.Any())
             {
-                throw new ArgumentNullException("PaymentNotMatched cannot be null");
+                throw new ArgumentNullException("PaymentNotMatched cannot be null or empty");
             }
             this.WriteLine(this.PaymentNotMatchedFormatter.AsCsv(iPaymentsNotMatched));
         }
         public void WritePaymentsNotMatchedToHtml(IEnumerable<PaymentNotMatched> iPaymentsNotMatched)
         {
-            if (iPaymentsNotMatched == null)
+            if (iPaymentsNotMatched == null || !iPaymentsNotMatched.Any())
             {
-                throw new ArgumentNullException("PaymentNotMatched cannot be null");
+                throw new ArgumentNullException("PaymentNotMatched cannot be null or empty");
             }
             this.WriteLine(this.PaymentNotMatchedFormatter.AsHtml(iPaymentsNotMatched));
         }
