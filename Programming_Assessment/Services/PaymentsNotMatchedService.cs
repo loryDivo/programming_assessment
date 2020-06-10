@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace Programming_Assessment
 {
-    public class PaymentsNotMatched
+    public class PaymentsNotMatchedService
     {
         private Purchases Purchases;
         private ItemPricesRoot ItemPricesRoot;
-        private List<Payment> PaymentsPayed;
-        public PaymentsNotMatched(Purchases iPurchases, ItemPricesRoot iItemPricesRoot, List<Payment> iPaymentsPayed)
+        private HashSet<Payment> PaymentsPayed;
+        public PaymentsNotMatchedService(Purchases iPurchases, ItemPricesRoot iItemPricesRoot, HashSet<Payment> iPaymentsPayed)
         {
             this.Purchases = iPurchases;
             this.ItemPricesRoot = iItemPricesRoot;
@@ -25,15 +25,17 @@ namespace Programming_Assessment
 
         public SortedSet<PaymentNotMatched> CalculatePaymentsNotMatched()
         {
-            List<Payment> aPaymentsDue = CalculatePaymentsDue();
-            SortedSet<PaymentNotMatched> aPaymentsNotMatched = new SortedSet<PaymentNotMatched>();
-
+            HashSet<Payment> aPaymentsDue = CalculatePaymentsDue();
+            if (!aPaymentsDue.Any())
+            {
+                return new SortedSet<PaymentNotMatched>();
+            }
             // PaymentsDue which are not existing inside PaymentsPayed or with attribute discrepancies
-            List<Payment> aPaymentsDueWithDiscrepancy = aPaymentsDue.Where(paymentDue => !this.PaymentsPayed.Contains(paymentDue)).ToList();
+            HashSet<Payment> aPaymentsDueWithDiscrepancy = new HashSet<Payment>(aPaymentsDue.Where(paymentDue => !this.PaymentsPayed.Contains(paymentDue)));
             // PaymentsPayed which are not existing inside PaymentsDue or with attribute discrepancies
-            List<Payment> aPaymentsPayedWithDiscrepancy = PaymentsPayed.Where(paymentPayed => !aPaymentsDue.Contains(paymentPayed)).ToList();
+            HashSet<Payment> aPaymentsPayedWithDiscrepancy = new HashSet<Payment>(PaymentsPayed.Where(paymentPayed => !aPaymentsDue.Contains(paymentPayed)));
 
-            List<PaymentNotMatched> aPaymentsDueNotInPayed = (from aPaymentDueWithDiscrepancy in aPaymentsDueWithDiscrepancy
+            HashSet<PaymentNotMatched> aPaymentsDueNotInPayed = new HashSet<PaymentNotMatched>(from aPaymentDueWithDiscrepancy in aPaymentsDueWithDiscrepancy
                                                               where !aPaymentsPayedWithDiscrepancy
                                                               .Any(aPaymentPayedWithDiscrepancy => aPaymentPayedWithDiscrepancy.Customer == aPaymentDueWithDiscrepancy.Customer &&
                                                                                                    aPaymentPayedWithDiscrepancy.Month == aPaymentDueWithDiscrepancy.Month &&
@@ -44,9 +46,9 @@ namespace Programming_Assessment
                                                                   aPaymentDueWithDiscrepancy.Month,
                                                                   0,
                                                                   aPaymentDueWithDiscrepancy.Amount,
-                                                                  (float)Math.Round(Math.Abs(0 - aPaymentDueWithDiscrepancy.Amount), 2))).ToList();
+                                                                  (float)Math.Round(Math.Abs(0 - aPaymentDueWithDiscrepancy.Amount), 2)));
 
-            List<PaymentNotMatched> aPaymentsPayedNotInDue = (from aPaymentPayedWithDiscrepancy in aPaymentsPayedWithDiscrepancy
+            HashSet<PaymentNotMatched> aPaymentsPayedNotInDue = new HashSet<PaymentNotMatched>(from aPaymentPayedWithDiscrepancy in aPaymentsPayedWithDiscrepancy
                                                               where !aPaymentsDueWithDiscrepancy
                                                               .Any(aPaymentDueWithDiscrepancy => aPaymentPayedWithDiscrepancy.Customer == aPaymentDueWithDiscrepancy.Customer &&
                                                                    aPaymentPayedWithDiscrepancy.Month == aPaymentDueWithDiscrepancy.Month &&
@@ -57,9 +59,9 @@ namespace Programming_Assessment
                                                                   aPaymentPayedWithDiscrepancy.Month,
                                                                   aPaymentPayedWithDiscrepancy.Amount,
                                                                   0,
-                                                                  (float)Math.Round(Math.Abs(0 - aPaymentPayedWithDiscrepancy.Amount), 2))).ToList();
+                                                                  (float)Math.Round(Math.Abs(0 - aPaymentPayedWithDiscrepancy.Amount), 2)));
 
-            List<PaymentNotMatched> aPaymentsInCommon = (from aPaymentDueWithDiscrepancy in aPaymentsDueWithDiscrepancy
+            HashSet<PaymentNotMatched> aPaymentsInCommon = new HashSet<PaymentNotMatched>(from aPaymentDueWithDiscrepancy in aPaymentsDueWithDiscrepancy
                                                          from aPaymentPayedWithDiscrepancy in aPaymentsPayedWithDiscrepancy
                                                          where aPaymentDueWithDiscrepancy.Customer == aPaymentPayedWithDiscrepancy.Customer &&
                                                                aPaymentDueWithDiscrepancy.Month == aPaymentPayedWithDiscrepancy.Month &&
@@ -71,36 +73,20 @@ namespace Programming_Assessment
                                                              aPaymentPayedWithDiscrepancy.Month,
                                                              aPaymentPayedWithDiscrepancy.Amount,
                                                              aPaymentDueWithDiscrepancy.Amount,
-                                                             (float)Math.Round(Math.Abs(aPaymentPayedWithDiscrepancy.Amount - aPaymentDueWithDiscrepancy.Amount), 2))).ToList();
-            // Sort Payment that are common both to Payments Payed and Payments Due
-            foreach (PaymentNotMatched aPaymentInCommon in aPaymentsInCommon)
-            {
-                aPaymentsNotMatched.Add(aPaymentInCommon);
-            }
-
-            // Sort Payment that are not inside the Payments Payed
-            foreach (PaymentNotMatched aPaymentDueNotInPayed in aPaymentsDueNotInPayed)
-            {
-                aPaymentsNotMatched.Add(aPaymentDueNotInPayed);
-            }
-            // Sort Payment that are not inside the Payments Due
-            foreach (PaymentNotMatched aPaymentPayedNotInDue in aPaymentsPayedNotInDue)
-            {
-                aPaymentsNotMatched.Add(aPaymentPayedNotInDue);
-            }
-
-            return aPaymentsNotMatched;
+                                                             (float)Math.Round(Math.Abs(aPaymentPayedWithDiscrepancy.Amount - aPaymentDueWithDiscrepancy.Amount), 2)));
+            // Sort all detected discrepancies
+            return new SortedSet<PaymentNotMatched>(aPaymentsInCommon.Union(aPaymentsDueNotInPayed).Union(aPaymentsPayedNotInDue));
         }
 
         /// <summary>
         /// This method calculate all the payments due calculated from <see cref="Purchases.PurchasesList"/> and <see cref="ItemPricesRoot.ItemPrices.ItemsPriceSet"/>
         /// </summary>
         /// <returns>
-        /// <see cref="List{Payment}"/> built from <see cref="Purchases"/> and <see cref="ItemPricesRoot.ItemPrices.ItemsPriceSet"/>
+        /// <see cref="HashSet{Payment}"/> built from <see cref="Purchases"/> and <see cref="ItemPricesRoot.ItemPrices.ItemsPriceSet"/>
         /// </returns>
-        private List<Payment> CalculatePaymentsDue()
+        private HashSet<Payment> CalculatePaymentsDue()
         {
-            List<Payment> aPaymentsDue = new List<Payment>();
+            HashSet<Payment> aPaymentsDue = new HashSet<Payment>();
             HashSet<String> aCustomerIds = new HashSet<String>(Purchases.PurchasesList.Select(aPurchase => aPurchase.Customer));
             foreach (String aCustomerId in aCustomerIds)
             {
@@ -149,13 +135,11 @@ namespace Programming_Assessment
         private Dictionary<String, Purchases> DetectSameMonthsCustomerIdPurchases(String iCustomerId)
         {
             Purchases aSameCustomerIdPurchases = new Purchases();
-            aSameCustomerIdPurchases.PurchasesList = Purchases.PurchasesList.Select(aPurchase => new Purchase()
-            {
-                Date = aPurchase.Date,
-                Items = aPurchase.Items,
-                Customer = aPurchase.Customer,
-            }
-            ).Where(aPurchase => aPurchase.Customer == iCustomerId).ToList();
+            aSameCustomerIdPurchases.PurchasesList = Purchases.PurchasesList.Select(aPurchase =>
+            new Purchase(aPurchase.Customer,
+                         aPurchase.Date,
+                         aPurchase.Items))
+            .Where(aPurchase => aPurchase.Customer == iCustomerId).ToList();
             
             Dictionary<String, Purchases> aSameMonthsCustomerIdPurchases = new Dictionary<String, Purchases>();
 
@@ -164,13 +148,11 @@ namespace Programming_Assessment
             foreach (String aCustomerIdDate in aCustomerIdDates)
             {
                 Purchases aSameMonthCustomerIdPurchase = new Purchases();
-                aSameMonthCustomerIdPurchase.PurchasesList = aSameCustomerIdPurchases.PurchasesList.Select(aPurchase => new Purchase()
-                {
-                    Date = aPurchase.Date,
-                    Items = aPurchase.Items,
-                    Customer = aPurchase.Customer,
-                }
-                ).Where(aPurchase => aPurchase.Date.ToString("yyyyMM") == aCustomerIdDate).ToList();
+                aSameMonthCustomerIdPurchase.PurchasesList = aSameCustomerIdPurchases.PurchasesList.Select(aPurchase =>
+                new Purchase(aPurchase.Customer,
+                         aPurchase.Date,
+                         aPurchase.Items))
+                .Where(aPurchase => aPurchase.Date.ToString("yyyyMM") == aCustomerIdDate).ToList();
                 aSameMonthsCustomerIdPurchases.Add(aCustomerIdDate, aSameMonthCustomerIdPurchase);
             }
             return aSameMonthsCustomerIdPurchases;

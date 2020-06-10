@@ -17,6 +17,12 @@ namespace Programming_Assessment
         public DateTime Date { get; set; }
         public List<Item> Items { get; set; }
 
+        public Purchase(String iCustomer, DateTime iDate, List<Item> iItems)
+        {
+            this.Customer = iCustomer;
+            this.Date = iDate;
+            this.Items = iItems;
+        }
         public Purchase()
         {
             Items = new List<Item>();

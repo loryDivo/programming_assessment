@@ -19,9 +19,9 @@ namespace Programming_Assessment
             }
         }
 
-        public List<T> Deserialize()
+        public IEnumerable<T> Deserialize()
         {
-            List<T> aDeserializedObject = JsonConvert.DeserializeObject<List<T>>(this.MarkupString);
+            IEnumerable<T> aDeserializedObject = JsonConvert.DeserializeObject<IEnumerable<T>>(this.MarkupString);
             return aDeserializedObject;
         }
         /// <summary>

@@ -14,13 +14,13 @@ namespace Programming_Assessment
 
             JsonParser<Payment> aJsonParserPayment = new JsonParser<Payment>("data");
             aJsonParserPayment.LoadFile("Payments.json");
-            List <Payment> aPaymentsPayed = aJsonParserPayment.Deserialize();
+            HashSet <Payment> aPaymentsPayed = new HashSet <Payment> (aJsonParserPayment.Deserialize());
 
             PurchasesDatParser aPurchasesDatParser = new PurchasesDatParser("data");
             aPurchasesDatParser.LoadFile("Purchases.dat");
             Purchases aPurchases = aPurchasesDatParser.Deserialize();
 
-            PaymentsNotMatched aPaymentsNotMatched = new PaymentsNotMatched(aPurchases, itemPricesRoot, aPaymentsPayed);
+            PaymentsNotMatchedService aPaymentsNotMatched = new PaymentsNotMatchedService(aPurchases, itemPricesRoot, aPaymentsPayed);
 
 
             // Calculate Payments that have no matching
